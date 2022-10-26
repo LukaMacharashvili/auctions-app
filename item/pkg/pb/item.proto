@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package item;
+
+option go_package = "pb";
+
+message Item {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+    double startingPrice = 4;
+    string image = 5;
+    string status = 6;
+    double highestBid = 7;
+    int64 ownerId = 8;
+    int64 highestBidder = 9;
+}
+
+service ItemService {
+    rpc Create(CreateRequest) returns (CreateResponse) {};
+    rpc Load(LoadRequest) returns (stream LoadResponse) {};
+    rpc Fetch(FetchRequest) returns (FetchResponse) {};
+    rpc Delete(DeleteRequest) returns (DeleteResponse) {};
+    rpc Bid(BidRequest) returns (BidResponse) {};
+    rpc FinishAuction(FinishAuctionRequest) returns (FinishAuctionResponse) {};
+}
+
+message CreateRequest {
+    Item item = 1;
+}
+
+
+message CreateResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message LoadRequest {}
+
+message LoadResponse {
+   Item item = 1;
+   string error = 2;
+}
+
+message FetchRequest {
+    int64 id = 1;
+}
+
+message FetchResponse {
+    Item item = 1;
+    string error = 2;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+    int64 ownerId = 2;
+}
+
+message DeleteResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message UpdateRequest {
+    int64 id = 1;
+    int64 ownerId = 2;
+    Item item = 3;
+}
+
+message UpdateResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message DeleteByUserRequest {
+    string userId = 1;
+}
+
+message DeleteByUserResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+
+message BidRequest {
+    int64 id = 1;
+    double amount = 2;
+    int64 userId = 3;
+}
+
+message BidResponse {
+    int64 status = 1;
+    string error = 2;    
+}
+
+message FinishAuctionRequest {
+    int64 id = 1;
+    int64 ownerId = 2;
+}
+
+message FinishAuctionResponse {
+    int64 status = 1;
+    string error = 2;        
+}

@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package admin;
+
+option go_package = "pb";
+
+message User {
+    int64 id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4;
+    string role = 5;
+    double balance = 6;
+}
+
+service AdminService {
+    rpc Load(LoadRequest) returns (stream LoadResponse) {};
+    rpc Create(CreateRequest) returns (CreateResponse) {};
+    rpc Delete(DeleteRequest) returns (DeleteResponse) {};
+}
+
+message LoadRequest {}
+
+message LoadResponse {
+    User user = 1;
+}
+
+message CreateRequest {
+    User user = 1;
+}
+
+message CreateResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+}
+
+message DeleteResponse {
+    bool deleted = 1;
+    string error = 2;
+}

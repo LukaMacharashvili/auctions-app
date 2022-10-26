@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package wallet;
+
+option go_package = "pb";
+
+message RaiseReq {
+    int64 id = 1;
+    int64 ownerId = 2;
+    double amount = 3;
+    string status = 4;
+}
+
+message Transaction {
+    int64 id = 1;
+    int64 ownerId = 2;
+    double amount = 3;
+}
+
+service WalletService {
+    rpc Create(CreateRequest) returns (CreateResponse) {};
+    rpc LoadTransactions(LoadTransactionsRequest) returns (stream LoadTransactionsResponse) {};
+    rpc LoadRaiseReqs(LoadRaiseReqsRequest) returns (stream LoadRaiseReqsResponse) {};
+    rpc ChangeStatus(ChangeStatusRequest) returns (ChangeStatusResponse) {};
+}
+
+message CreateRequest {
+    RaiseReq raiseReq = 1;
+}
+
+
+message CreateResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message LoadTransactionsRequest {
+   int64 ownerId = 1;
+}
+
+message LoadTransactionsResponse {
+    Transaction transaction = 1;
+    string error = 2;
+}
+
+message LoadRaiseReqsRequest {
+   int64 ownerId = 1;
+}
+
+message LoadRaiseReqsResponse {
+   RaiseReq RaiseReq = 1;
+   string error = 2;
+}
+
+message DeleteRequest {
+    int64 id = 1;
+    int64 ownerId = 2;
+}
+
+message DeleteResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message ChangeStatusRequest {
+    int64 id = 1;
+    string status = 2;
+}
+
+message ChangeStatusResponse {
+    int64 status = 1;
+    string error = 2;
+}
